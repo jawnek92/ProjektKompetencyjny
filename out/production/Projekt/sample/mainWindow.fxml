@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.121">
+    <top>
+        <VBox>
+            <MenuBar>
+                <Menu text="Menu klawisz 1">
+                    <items>
+                        <MenuItem text="Cos tam" />
+                        <SeparatorMenuItem />
+                        <MenuItem text="Exit" />
+                    </items>
+                </Menu>
+                <Menu text="Menu klawisz 2">
+                    <items>
+                        <MenuItem text="Cos tam" />
+                    </items>
+                </Menu>
+            </MenuBar>
+            <ToolBar>
+                <HBox>
+                    <ComboBox prefWidth="150.0">
+                        <items>
+                        </items>
+                    </ComboBox>
+                </HBox>
+            </ToolBar>
+        </VBox>
+    </top>
+    <left>
+        <ListView>
+
+        </ListView>
+    </left>
+    <center>
+        <VBox style="-fx-background-color: white">
+            <TextArea>
+                <font>
+                    <Font name="Times New Roman" size="20" />
+                </font>
+            </TextArea>
+            <HBox>
+                <Label style="-fx-background-color: white" wrapText="true" text="Cos tu moznaby pierdyknac, jakies podsatwowe dane z ogloszenia a jak nie to sie wyjebie i bedzie tylko to okno duze xD">
+                    <font>
+                        <Font name="Times New Roman bold" size="20" />
+                    </font>
+                </Label>
+                <Label>
+                    <font>
+                        <Font name="Times New Roman bold" size="20" />
+                    </font>
+                </Label>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
