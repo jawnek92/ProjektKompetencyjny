@@ -12,7 +12,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<BorderPane xmlns="http://javafx.com/javafx/8.0.121">
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.121" fx:controller="App.Controller" xmlns:fx="http://javafx.com/fxml">
     <top>
         <VBox>
             <MenuBar>
@@ -31,38 +33,41 @@
             </MenuBar>
             <ToolBar>
                 <HBox>
-                    <ComboBox prefWidth="150.0">
+                    <Label>
+                        <font>
+                            <Font name="Times New Roman" size="20"/>
+                        </font>
+                        Categories :
+                    </Label>
+                    <ComboBox id="categoriesComboBox" prefWidth="150.0" >
                         <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Motoryzacja"/>
+                                <String fx:value="Nieruchomosci"/>
+                                <String fx:value="Elektronika"/>
+                                <String fx:value="Sport"/>
+                            </FXCollections>
                         </items>
+                        <value>
+                            <String fx:value="Motoryzajca"/>
+                        </value>
                     </ComboBox>
                 </HBox>
             </ToolBar>
         </VBox>
     </top>
     <left>
-        <ListView>
+        <ListView fx:id="leftListView">
 
         </ListView>
     </left>
     <center>
-        <VBox style="-fx-background-color: white">
+        <VBox style="-fx-background-color: white" VBox.vgrow="ALWAYS">
             <TextArea>
                 <font>
                     <Font name="Times New Roman" size="20" />
                 </font>
             </TextArea>
-            <HBox>
-                <Label style="-fx-background-color: white" wrapText="true" text="Cos tu moznaby pierdyknac, jakies podsatwowe dane z ogloszenia a jak nie to sie wyjebie i bedzie tylko to okno duze xD">
-                    <font>
-                        <Font name="Times New Roman bold" size="20" />
-                    </font>
-                </Label>
-                <Label>
-                    <font>
-                        <Font name="Times New Roman bold" size="20" />
-                    </font>
-                </Label>
-            </HBox>
         </VBox>
     </center>
 </BorderPane>
