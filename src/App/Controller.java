@@ -7,16 +7,24 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -32,11 +40,11 @@ public class Controller {
     @FXML
     private TextField searchTextField;
 
-
     @FXML
     private ListView<Advert> leftListView;
+
     @FXML
-    private ImageView leftImageView;
+    private HBox rightHBox;
 
     private List<Advert> advertsList;
 
@@ -80,6 +88,31 @@ public class Controller {
     }
 
     @FXML
+    private void handleClickLeftListView(){
+        Advert advert = leftListView.getSelectionModel().getSelectedItem();
+        if(advert == null)
+            System.out.println("NO items.");
+        else{
+            ImageView image = new ImageView(advert.getImage());
+            image.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    try {
+                        Desktop.getDesktop().browse(new URL(advert.getLinkToAdvertisment()).toURI());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            rightHBox.getChildren().setAll(image);
+            rightHBox.setStyle("-fx-start-margin: 30");
+            rightHBox.setStyle("-fx-end-margin: 30");
+        }
+
+    }
+    @FXML
     private void handleSearch(){
         /*Left list view*/
         String category = categoriesComboBox.getValue().toLowerCase(new Locale("PL", "pl"));
@@ -105,7 +138,6 @@ public class Controller {
 
         leftListView.setItems(olxObservableList);
         leftListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        leftListView.getSelectionModel().selectFirst();
         leftListView.setStyle("-webkit-fx-font-size: 20;-moz-fx-font-size: 20;-ms-fx-font-size: 20;-o-fx-font-size: 20;-khtml-fx-font-size: 20;fx-font-size: 20; -fx-font-weight: bold");
         leftListView.setFixedCellSize(30);
         leftListView.setCellFactory(new Callback<ListView<Advert>, ListCell<Advert>>() {
