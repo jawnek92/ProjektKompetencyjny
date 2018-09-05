@@ -6,13 +6,19 @@ public class Advert {
     private String title;
     private String price;
     private String linkToAdvertisment;
+    private String imageLink;
     private Image image;
 
-    public Advert(String title, String price, String linkToAdvertisment, String linkToImage) {
+    public Advert(String title, String price, String linkToAdvertisment, String linkToImage, String imageLink) {
         this.title = title;
         this.price = price;
         this.linkToAdvertisment = linkToAdvertisment;
         this.image = new Image(linkToImage);
+        this.imageLink = imageLink;
+    }
+
+    public String getImageLink() {
+        return imageLink;
     }
 
     public String getTitle() {

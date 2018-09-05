@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -12,9 +15,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<BorderPane xmlns="http://javafx.com/javafx/8.0.121" fx:controller="App.Controller" xmlns:fx="http://javafx.com/fxml">
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.Controller">
     <top>
         <VBox>
             <MenuBar>
@@ -33,37 +38,44 @@
             </MenuBar>
             <ToolBar>
                 <HBox>
-                    <Label>
-                        <font>
-                            <Font name="Times New Roman" size="20"/>
-                        </font>
-                        Categories :
+                    <Label text="Categories : " style="-fx-alignment: center">
                     </Label>
-                    <ComboBox id="categoriesComboBox" prefWidth="150.0" >
+                    <ComboBox fx:id="categoriesComboBox" prefWidth="150.0">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
-                                <String fx:value="Motoryzacja"/>
-                                <String fx:value="Nieruchomosci"/>
-                                <String fx:value="Elektronika"/>
-                                <String fx:value="Sport"/>
+                                <String fx:value="Motoryzacja" />
+                                <String fx:value="Nieruchomosci" />
+                                <String fx:value="Elektronika" />
+                                <String fx:value="Moda" />
                             </FXCollections>
                         </items>
-                        <value>
-                            <String fx:value="Motoryzajca"/>
-                        </value>
+                    </ComboBox>
+                    <ComboBox fx:id="secondCategoriesComboBox" prefWidth="150">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Samochody"/>
+                                <String fx:value="Motocykle"/>
+                            </FXCollections>
+                        </items>
                     </ComboBox>
                 </HBox>
             </ToolBar>
+            <HBox>
+                <Label text="Wyszukaj : " >
+                </Label>
+                <TextField promptText="Search ... " fx:id="searchTextField"></TextField>
+                <Button text="Search" onAction="#handleSearch"></Button>
+            </HBox>
         </VBox>
     </top>
     <left>
-        <ListView fx:id="leftListView">
-
+        <ListView fx:id="leftListView" prefHeight="400.0" prefWidth="400.0" >
         </ListView>
     </left>
     <center>
         <VBox style="-fx-background-color: white" VBox.vgrow="ALWAYS">
             <TextArea>
+
                 <font>
                     <Font name="Times New Roman" size="20" />
                 </font>

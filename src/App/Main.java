@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         OlxElements olxElements = new OlxElements("https://www.olx.pl/motoryzacja/samochody/q-Honda-crx/");
-        System.out.println(olxElements.getTitlesFromOlx().get(0));
+//        System.out.println(olxElements.getTitlesFromOlx().get(0));
 
 
         Parent root = FXMLLoader.load(getClass().getResource("mainWindow.fxml"));
