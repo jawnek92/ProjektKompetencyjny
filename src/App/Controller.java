@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.util.Callback;
 
 import java.awt.*;
@@ -43,6 +45,8 @@ public class Controller {
     @FXML
     private ListView<Advert> leftListView;
 
+    @FXML
+    private VBox rightVBox;
     @FXML
     private HBox rightHBox;
 
@@ -106,11 +110,22 @@ public class Controller {
                     }
                 }
             });
-            rightHBox.getChildren().setAll(image);
-            rightHBox.setStyle("-fx-start-margin: 30");
-            rightHBox.setStyle("-fx-end-margin: 30");
+            Label label = new Label(advert.getTitle());
+            label.setWrapText(true);
+            label.setFont(Font.font("Times New Roman", 20));
+            Label label2 = new Label("Cena: " + advert.getPrice());
+            label2.setWrapText(true);
+            if(rightHBox.getChildren().isEmpty()){
+                rightHBox.getChildren().setAll(label, image);
+                rightVBox.getChildren().setAll(rightHBox, label2);
+            }else{
+                rightHBox = new HBox();
+                rightHBox.getChildren().retainAll(label, image);
+                rightVBox.getChildren().retainAll(rightHBox, label2);
+                rightHBox.getChildren().setAll(label, image);
+                rightVBox.getChildren().setAll(rightHBox, label2);
+            }
         }
-
     }
     @FXML
     private void handleSearch(){

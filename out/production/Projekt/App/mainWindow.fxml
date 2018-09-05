@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -9,16 +10,12 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Button?>
 <BorderPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.Controller">
     <top>
         <VBox>
@@ -38,7 +35,7 @@
             </MenuBar>
             <ToolBar>
                 <HBox>
-                    <Label text="Categories : " style="-fx-alignment: center">
+                    <Label style="-fx-alignment: center" text="Categories : ">
                     </Label>
                     <ComboBox fx:id="categoriesComboBox" prefWidth="150.0">
                         <items>
@@ -53,33 +50,34 @@
                     <ComboBox fx:id="secondCategoriesComboBox" prefWidth="150">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
-                                <String fx:value="Samochody"/>
-                                <String fx:value="Motocykle"/>
+                                <String fx:value="Samochody" />
+                                <String fx:value="Motocykle" />
                             </FXCollections>
                         </items>
                     </ComboBox>
                 </HBox>
             </ToolBar>
             <HBox>
-                <Label text="Wyszukaj : " >
+                <Label text="Wyszukaj : ">
                 </Label>
-                <TextField promptText="Search ... " fx:id="searchTextField"></TextField>
-                <Button text="Search" onAction="#handleSearch"></Button>
+                <TextField fx:id="searchTextField" promptText="Search ... " />
+                <Button onAction="#handleSearch" text="Search" />
             </HBox>
         </VBox>
     </top>
     <left>
-        <ListView fx:id="leftListView" prefHeight="400.0" prefWidth="400.0" >
+        <ListView fx:id="leftListView" onMouseClicked="#handleClickLeftListView" prefHeight="400.0" prefWidth="400.0">
         </ListView>
     </left>
-    <center>
-        <VBox style="-fx-background-color: white" VBox.vgrow="ALWAYS">
-            <TextArea>
+   <center>
+       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+           <top>
+               <VBox fx:id="rightVBox">
+                    <HBox fx:id="rightHBox">
 
-                <font>
-                    <Font name="Times New Roman" size="20" />
-                </font>
-            </TextArea>
-        </VBox>
-    </center>
+                    </HBox>
+               </VBox>
+           </top>
+       </BorderPane>
+   </center>
 </BorderPane>

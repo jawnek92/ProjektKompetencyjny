@@ -72,9 +72,11 @@
    <center>
        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
            <top>
-               <HBox fx:id="rightHBox">
+               <VBox fx:id="rightVBox">
+                    <HBox fx:id="rightHBox">
 
-               </HBox>
+                    </HBox>
+               </VBox>
            </top>
        </BorderPane>
    </center>
