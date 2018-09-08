@@ -1,23 +1,18 @@
 package App;
 
-import App.WebSerching.OlxElements;
 import App.data.Advert;
-import App.data.OlxData;
+import App.data.Data;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -80,15 +75,6 @@ public class Controller {
                 }
             }
         });
-
-//        leftListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Advert>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Advert> observable, Advert oldValue, Advert newValue) {
-//                Advert newAdvert = leftListView.getSelectionModel().getSelectedItem();
-//
-//            }
-//        });
-
     }
 
     @FXML
@@ -130,28 +116,12 @@ public class Controller {
     @FXML
     private void handleSearch(){
         /*Left list view*/
-        String category = categoriesComboBox.getValue().toLowerCase(new Locale("PL", "pl"));
-        String secondCategory = secondCategoriesComboBox.getValue().toLowerCase();
+        advertsList = getOlxData();
+        advertsList.addAll(getGratkaData());
 
-        String pattern = "https://www.olx.pl/"; //motoryzacja/samochody/q-
-        OlxData olxData = new OlxData();
-        String searchText = searchTextField.getText();
-        String[] strings = searchText.split(" ");
-        StringBuilder link = new StringBuilder();
-        link.append(pattern);
-        if(secondCategory.equals("stancje i pokoje"))
-            secondCategory = "stancje-pokoje";
-        link.append(category).append("/").append(secondCategory).append("/q-");
-        for(int i=0; i<strings.length; i++){
-            if (i<strings.length-1)
-                link.append(strings[i].toLowerCase(new Locale("PL", "pl"))).append("-");
-            else
-                link.append(strings[i].toLowerCase(new Locale("PL", "pl"))).append("/");
-        }
-        advertsList = olxData.getOlxDataList(link.toString());
-        ObservableList<Advert> olxObservableList = FXCollections.observableList(advertsList);
-
-        leftListView.setItems(olxObservableList);
+        ObservableList<Advert> observableList = FXCollections.observableList(advertsList);
+        System.out.println(observableList.size());
+        leftListView.setItems(observableList);
         leftListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         leftListView.setStyle("-webkit-fx-font-size: 20;-moz-fx-font-size: 20;-ms-fx-font-size: 20;-o-fx-font-size: 20;-khtml-fx-font-size: 20;fx-font-size: 20; -fx-font-weight: bold");
         leftListView.setFixedCellSize(30);
@@ -166,7 +136,7 @@ public class Controller {
                             setItem(null);
                         }else{
 //                            setHeight(50);
-                            setText(item.getTitle() + item.getPrice());//ToDO dodac wyswietlanie zdjecia, zmienic wysokosc wyswietlanych komorek;
+                            setText((leftListView.getItems().indexOf(item)+1) +". "+ item.getTitle() + item.getPrice());//ToDO dodac wyswietlanie zdjecia, zmienic wysokosc wyswietlanych komorek;
                         }
                     }
 
@@ -175,4 +145,56 @@ public class Controller {
             }
         });
     }
+
+    private List<Advert> getOlxData(){
+        String category = categoriesComboBox.getValue().toLowerCase();
+        String secondCategory = secondCategoriesComboBox.getValue().toLowerCase();
+
+        String pattern = "https://www.olx.pl/"; //motoryzacja/samochody/q-
+        Data olxData = new Data();
+        String searchText = searchTextField.getText();
+        String[] strings = searchText.split(" ");
+        StringBuilder link = new StringBuilder();
+        link.append(pattern);
+        if(secondCategory.equals("stancje i pokoje"))
+            secondCategory = "stancje-pokoje";
+        link.append(category).append("/").append(secondCategory).append("/q-");
+        for(int i=0; i<strings.length; i++){
+            if (i<strings.length-1)
+                link.append(strings[i].toLowerCase(new Locale("PL", "pl"))).append("-");
+            else
+                link.append(strings[i].toLowerCase(new Locale("PL", "pl"))).append("/");
+        }
+
+        return olxData.getOlxDataList(link.toString());
+    }
+    private List<Advert> getGratkaData(){
+        String category = categoriesComboBox.getValue().toLowerCase();
+        String secondCategory = secondCategoriesComboBox.getValue().toLowerCase();
+
+        String pattern = "https://gratka.pl/";//motoryzacja/motocykle?q"
+        Data gratkaData = new Data();
+        String searchText = searchTextField.getText();
+        String[] strings = searchText.split(" ");
+        StringBuilder link = new StringBuilder();
+        if(secondCategory.equals("stancje i pokoje"))
+            secondCategory = "pokoje";
+        link.append(pattern).append(category).append("/").append(secondCategory);
+        for(int i=0; i<strings.length; i++){
+            if(i<strings.length-1){
+                link.append(strings[i].toLowerCase(new Locale("PL", "pl"))).append("+");
+            }else
+                link.append(strings[i].toLowerCase(new Locale("PL", "pl")));
+        }
+
+        return gratkaData.getGratkaDataList(link.toString());
+    }
+
+    private List<Advert> getAllegroData(){
+        String category = categoriesComboBox.getValue().toLowerCase();
+        String secondCategory = secondCategoriesComboBox.getValue().toLowerCase();
+        return null;
+
+        }
+
 }

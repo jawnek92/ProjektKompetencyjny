@@ -9,12 +9,12 @@ public class Advert {
     private String imageLink;
     private Image image;
 
-    public Advert(String title, String price, String linkToAdvertisment, String linkToImage, String imageLink) {
+    public Advert(String title, String price, String linkToAdvertisment, String linkToImage) {
         this.title = title;
         this.price = price;
         this.linkToAdvertisment = linkToAdvertisment;
         this.image = new Image(linkToImage);
-        this.imageLink = imageLink;
+        this.imageLink = linkToImage;
     }
 
     public String getImageLink() {

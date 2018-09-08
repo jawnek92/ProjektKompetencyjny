@@ -1,7 +1,6 @@
 package App;
 
 import App.WebSerching.OlxElements;
-import App.data.OlxData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
