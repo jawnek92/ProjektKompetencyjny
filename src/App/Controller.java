@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -119,6 +120,18 @@ public class Controller {
         advertsList = getOlxData();
         advertsList.addAll(getGratkaData());
 
+//        Task<List<Advert>> getDataFromOlxTask= new Task<List<Advert>>() {
+//            @Override
+//            protected List<Advert> call() throws Exception {
+//                advertsList.addAll(getGratkaData());
+//                return null;
+//            }
+//        };
+//
+//        Thread getDataFromOlxThread = new Thread(getDataFromOlxTask);
+////        getDataFromOlxThread.setDaemon(true);
+//        getDataFromOlxThread.start();
+
         ObservableList<Advert> observableList = FXCollections.observableList(advertsList);
         System.out.println(observableList.size());
         leftListView.setItems(observableList);
@@ -158,6 +171,8 @@ public class Controller {
         link.append(pattern);
         if(secondCategory.equals("stancje i pokoje"))
             secondCategory = "stancje-pokoje";
+        else if(secondCategory.equals("motocykle"))
+            secondCategory = "motocykle-skutery";
         link.append(category).append("/").append(secondCategory).append("/q-");
         for(int i=0; i<strings.length; i++){
             if (i<strings.length-1)
