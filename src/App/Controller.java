@@ -204,12 +204,17 @@ public class Controller {
         StringBuilder link = new StringBuilder();
         if(secondCategory.equals("stancje i pokoje"))
             secondCategory = "pokoje";
+        else if(secondCategory.equals("samochody"))
+            secondCategory = "osobowe";
         link.append(pattern).append(category).append("/").append(secondCategory);
-        for(int i=0; i<strings.length; i++){
-            if(i<strings.length-1){
-                link.append(strings[i].toLowerCase(new Locale("PL", "pl"))).append("+");
-            }else
-                link.append(strings[i].toLowerCase(new Locale("PL", "pl")));
+        if(strings.length!=0) {
+            link.append("?q=");
+            for (int i = 0; i < strings.length; i++) {
+                if (i < strings.length - 1) {
+                    link.append(strings[i].toLowerCase(new Locale("PL", "pl"))).append("+");
+                } else
+                    link.append(strings[i].toLowerCase(new Locale("PL", "pl")));
+            }
         }
 
         GratkaController gratkaController = new GratkaController(link.toString());

@@ -19,20 +19,6 @@
 <BorderPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.Controller">
     <top>
         <VBox>
-            <MenuBar>
-                <Menu text="Menu klawisz 1">
-                    <items>
-                        <MenuItem text="Cos tam" />
-                        <SeparatorMenuItem />
-                        <MenuItem text="Exit" />
-                    </items>
-                </Menu>
-                <Menu text="Menu klawisz 2">
-                    <items>
-                        <MenuItem text="Cos tam" />
-                    </items>
-                </Menu>
-            </MenuBar>
             <ToolBar>
                 <HBox>
                     <Label style="-fx-alignment: center" text="Categories : ">
