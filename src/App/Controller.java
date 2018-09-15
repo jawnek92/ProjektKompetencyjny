@@ -60,18 +60,22 @@ public class Controller {
                     case "Motoryzacja":
                         secondCategoriesComboBox.getItems().remove(0, secondCategoriesComboBox.getItems().size());
                         secondCategoriesComboBox.getItems().addAll("Samochody", "Motocykle");
+                        secondCategoriesComboBox.getSelectionModel().select(0);
                         break;
                     case "Nieruchomosci":
                         secondCategoriesComboBox.getItems().remove(0, secondCategoriesComboBox.getItems().size());
                         secondCategoriesComboBox.getItems().addAll("Mieszkania", "Domy", "Stancje i pokoje");
+                        secondCategoriesComboBox.getSelectionModel().select(0);
                         break;
                     case "Elektronika":
                         secondCategoriesComboBox.getItems().remove(0, secondCategoriesComboBox.getItems().size());
                         secondCategoriesComboBox.getItems().addAll("Telefony", "Tablety", "Telewizory", "Komputery");
+                        secondCategoriesComboBox.getSelectionModel().select(0);
                         break;
                     case "Moda":
                         secondCategoriesComboBox.getItems().remove(0, secondCategoriesComboBox.getItems().size());
                         secondCategoriesComboBox.getItems().addAll("Ubrania", "Buty", "Bielizna", "Zegarki");
+                        secondCategoriesComboBox.getSelectionModel().select(0);
                         break;
                 }
             }
@@ -117,23 +121,13 @@ public class Controller {
     @FXML
     private void handleSearch(){
         /*Left list view*/
+
         advertsList = getOlxData();
         advertsList.addAll(getGratkaData());
 
-//        Task<List<Advert>> getDataFromOlxTask= new Task<List<Advert>>() {
-//            @Override
-//            protected List<Advert> call() throws Exception {
-//                advertsList.addAll(getGratkaData());
-//                return null;
-//            }
-//        };
-//
-//        Thread getDataFromOlxThread = new Thread(getDataFromOlxTask);
-////        getDataFromOlxThread.setDaemon(true);
-//        getDataFromOlxThread.start();
+
 
         ObservableList<Advert> observableList = FXCollections.observableList(advertsList);
-        System.out.println(observableList.size());
         leftListView.setItems(observableList);
         leftListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         leftListView.setStyle("-webkit-fx-font-size: 20;-moz-fx-font-size: 20;-ms-fx-font-size: 20;-o-fx-font-size: 20;-khtml-fx-font-size: 20;fx-font-size: 20; -fx-font-weight: bold");
@@ -149,7 +143,7 @@ public class Controller {
                             setItem(null);
                         }else{
 //                            setHeight(50);
-                            setText((leftListView.getItems().indexOf(item)+1) +". "+ item.getTitle() + item.getPrice());//ToDO dodac wyswietlanie zdjecia, zmienic wysokosc wyswietlanych komorek;
+                            setText((leftListView.getItems().indexOf(item)+1) +". "+ item.getTitle() + item.getPrice());
                         }
                     }
 
@@ -159,6 +153,13 @@ public class Controller {
         });
     }
 
+    class OlxTask extends Task<ObservableList<Advert>>{
+        @Override
+        protected ObservableList<Advert> call() throws Exception {
+            ObservableList<Advert> observableList = FXCollections.observableList(getOlxData());
+            return observableList;
+        }
+    }
     private List<Advert> getOlxData(){
         String category = categoriesComboBox.getValue().toLowerCase();
         String secondCategory = secondCategoriesComboBox.getValue().toLowerCase();
@@ -181,7 +182,16 @@ public class Controller {
                 link.append(strings[i].toLowerCase(new Locale("PL", "pl"))).append("/");
         }
 
-        return olxData.getOlxDataList(link.toString());
+        OlxController olxController = new OlxController(link.toString());
+        Thread thread = new Thread(olxController);
+        thread.start();
+        while(!thread.getState().equals(Thread.State.TERMINATED)){}
+        try{
+            return olxController.getList();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
     private List<Advert> getGratkaData(){
         String category = categoriesComboBox.getValue().toLowerCase();
@@ -202,14 +212,51 @@ public class Controller {
                 link.append(strings[i].toLowerCase(new Locale("PL", "pl")));
         }
 
-        return gratkaData.getGratkaDataList(link.toString());
+        GratkaController gratkaController = new GratkaController(link.toString());
+        Thread thread = new Thread(gratkaController);
+        thread.start();
+        while(!thread.getState().equals(Thread.State.TERMINATED)){}
+        try{
+            return gratkaController.getList();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private List<Advert> getAllegroData(){
-        String category = categoriesComboBox.getValue().toLowerCase();
-        String secondCategory = secondCategoriesComboBox.getValue().toLowerCase();
-        return null;
+//    private List<Advert> getSprzedajemyData() {
+//        //https://sprzedajemy.pl/szukaj?inp_text=&inp_category_id=2&catCode=6bea9f&inp_location_id=1 - motoryzacja
+//        //https://sprzedajemy.pl/szukaj?inp_text=&inp_category_id=6&catCode=6bea9f&inp_location_id=1 - samochody osobowe
+//        //https://sprzedajemy.pl/szukaj?inp_text=&inp_category_id=452&catCode=6bea9f&inp_location_id=1 - motocykle
+//        //https://sprzedajemy.pl/szukaj?inp_text=&inp_category_id=36&catCode=1b8e55&inp_location_id=1 - mieszkania
+//        //https://sprzedajemy.pl/szukaj?inp_text=&inp_category_id=3&catCode=1b8e55&inp_location_id=1 - nieruchomosci
+//        //https://sprzedajemy.pl/szukaj?inp_text=&inp_category_id=1088&catCode=0010c9&inp_location_id=1 - telefony
+//        //https://sprzedajemy.pl/szukaj?inp_text=&inp_category_id=50&catCode=0010c9&inp_location_id=1 - komputery
+//        //https://sprzedajemy.pl/szukaj?inp_text=&inp_category_id=1124&catCode=0010c9&inp_location_id=1 tv
+//        //https://sprzedajemy.pl/szukaj?inp_text=&inp_category_id=35&catCode=1b8e55&inp_location_id=1 - domy
+//        //https://sprzedajemy.pl/szukaj?inp_text=&inp_category_id=293&catCode=1b8e55&inp_location_id=1 - lokale uzytkowe
+//
+//        String category = categoriesComboBox.getValue().toLowerCase();
+//        String secondCategory = secondCategoriesComboBox.getValue().toLowerCase();
+//
+//        String pattern = "https://sprzedajemy.pl/";//motoryzacja/motocykle?q"
+//        Data sprzedajemyData = new Data();
+//        String searchText = searchTextField.getText();
+//        String[] strings = searchText.split(" ");
+//        StringBuilder link = new StringBuilder();
+//        switch(categoriesComboBox.getValue()){
+//            case "Motoryzajca" :
+//                if(secondCategoriesComboBox.getValue().equals("Samochody"));
+//        }
+//        link.append(pattern).append(category).append("/").append(secondCategory);
+//        for(int i=0; i<strings.length; i++){
+//            if(i<strings.length-1){
+//                link.append(strings[i].toLowerCase(new Locale("PL", "pl"))).append("+");
+//            }else
+//                link.append(strings[i].toLowerCase(new Locale("PL", "pl")));
+//        }
+//        return null;
+//    }
 
-        }
 
 }

@@ -2,6 +2,8 @@ package App.data;
 
 import App.WebSerching.GratkaElements;
 import App.WebSerching.OlxElements;
+import App.WebSerching.SprzedajemyElements;
+import javafx.concurrent.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class Data {
         this.dataList = new ArrayList<>();
     }
 
+
     public List<Advert> getGratkaDataList(String link){
         dataList = new ArrayList<>();
         GratkaElements gratkaElements = new GratkaElements(link);
@@ -26,7 +29,6 @@ public class Data {
         int size = gratkaTitles.size();
         int[] sizes = {gratkaPrices.size(), gratkaImages.size(), gratkaLinks.size()};
         for (int i : sizes){
-            System.out.println(i);
             if(size > i)
                 size = i;
         }
@@ -53,6 +55,18 @@ public class Data {
             Advert tempAd = new Advert(olxTitles.get(i), olxPrices.get(i), olxLinks.get(i), olxImages.get(i));
 //            System.out.println("Advert "+ (i+1) +": "+ tempAd.getTitle()+", "+tempAd.getPrice());
             dataList.add(tempAd);
+        }
+        return dataList;
+    }
+    public List<Advert> getSprzedajemyDataList(String link) {
+        dataList = new ArrayList<>();
+        SprzedajemyElements sprzedajemyElements = new SprzedajemyElements(link);
+        for (int i=0; i<sprzedajemyElements.getTitlesFromSprzedajemy().size(); i++){
+            Advert temp = new Advert(sprzedajemyElements.getTitlesFromSprzedajemy().get(i),
+                    sprzedajemyElements.getPricesFromSprzedajemy().get(i),
+                    sprzedajemyElements.getLinkToItem().get(i),
+                    sprzedajemyElements.getImageSprzedajemy().get(i));
+            dataList.add(temp);
         }
         return dataList;
     }
